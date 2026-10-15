@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Message Sent - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f9fff9;
+    }
+    .message-box {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .message-box h2 {
+      color: #2e7d32;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #2e7d32;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #256628;
+    }
+  </style>
+</head>
+<body data-i18n-title="success_page_title">
+  <div class="message-box">
+    <h2 data-i18n="success_h2">✅ Message Sent Successfully!</h2>
+    <p data-i18n="success_p">Thank you for contacting us. We will get back to you soon.</p>
+    <a href="../index.html" class="btn" data-i18n="success_back_home">Go Back to Home</a>
+  </div>
+  <script src="../i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AgriWaste Marketplace - Register</title>
+
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(
+            45deg,
+            #56ab2f,
+            #a8e063,
+            #4caf50,
+            #81c784
+        );
+
+        background-size: 400% 400%;
+        animation: gradientShift 8s ease infinite;
+
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        position: relative;
+        overflow-y: auto;
+    }
+
+    @keyframes gradientShift {
+
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    body::before {
+        content: "";
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        background: url(
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ) no-repeat center center / cover;
+
+        opacity: 0.15;
+
+        z-index: 0;
+    }
+
+    .container,
+    .success-box {
+        background: #ffffff;
+
+        padding: 40px 50px;
+
+        border-radius: 16px;
+
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+        width: 400px;
+
+        text-align: center;
+
+        animation: fadeIn 0.8s ease;
+
+        position: relative;
+
+        z-index: 1;
+
+        margin: 30px 0;
+    }
+
+    .logo {
+        font-size: 34px;
+
+        font-weight: bold;
+
+        color: #2e7d32;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        margin-bottom: 15px;
+    }
+
+    .logo span {
+        font-size: 20px;
+
+        font-weight: 500;
+
+        color: #444;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+
+        color: #2e7d32;
+
+        font-size: 22px;
+    }
+
+    .input-group {
+        position: relative;
+
+        margin-bottom: 18px;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: 100%;
+
+        padding: 12px 15px 12px 40px;
+
+        border-radius: 10px;
+
+        border: 1px solid #ccc;
+
+        outline: none;
+
+        font-size: 15px;
+
+        transition: 0.3s;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+        border-color: #56ab2f;
+
+        box-shadow:
+            0 0 5px rgba(86, 171, 47, 0.5);
+    }
+
+    .input-group i {
+        position: absolute;
+
+        top: 50%;
+        left: 12px;
+
+        transform: translateY(-50%);
+
+        color: #56ab2f;
+
+        font-size: 16px;
+    }
+
+    button,
+    .btn {
+        width: 100%;
+
+        padding: 14px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background-color: #56ab2f;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        margin-top: 10px;
+
+        text-decoration: none;
+
+        display: inline-block;
+
+        text-align: center;
+    }
+
+    button:hover,
+    .btn:hover {
+        background-color: #3e8e0d;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 5px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:disabled {
+        background-color: #999;
+
+        cursor: not-allowed;
+
+        transform: none;
+
+        box-shadow: none;
+    }
+
+    .links {
+        margin-top: 18px;
+    }
+
+    .links a {
+        color: #2e7d32;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+        transition: 0.3s;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+    .success-box {
+        display: none;
+    }
+
+    .success-box p {
+        margin-bottom: 20px;
+
+        color: #444;
+
+        font-size: 16px;
+    }
+
+    #result {
+        min-height: 20px;
+
+        margin-top: 12px;
+
+        font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+
+        from {
+            opacity: 0;
+
+            transform: scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+
+            transform: scale(1);
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- =========================
+     REGISTER BOX
+========================== -->
+
+<div class="container" id="registerBox">
+
+    <div class="logo">
+        🌱
+        <span>AgriWaste Marketplace</span>
+    </div>
+
+    <h2 data-i18n="register_title">
+        Create Your Account
+    </h2>
+
+
+    <!-- REGISTER FORM -->
+
+    <form id="registerForm">
+
+        <!-- Full Name -->
+
+        <div class="input-group">
+
+            <i class="fa fa-user"></i>
+
+            <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                placeholder="Full Name"
+                data-i18n-placeholder="fullname_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- Email -->
+
+        <div class="input-group">
+
+            <i class="fa fa-envelope"></i>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                data-i18n-placeholder="email_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- Username -->
+
+        <div class="input-group">
+
+            <i class="fa fa-id-badge"></i>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                data-i18n-placeholder="username_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="input-group">
+
+            <i class="fa fa-lock"></i>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                data-i18n-placeholder="password_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- Confirm Password -->
+
+        <div class="input-group">
+
+            <i class="fa fa-lock"></i>
+
+            <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Confirm Password"
+                data-i18n-placeholder="confirm_password_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- User Type -->
+
+        <div class="input-group">
+
+            <i class="fa fa-users"></i>
+
+            <select
+                id="user_type"
+                name="user_type"
+                required
+            >
+
+                <option
+                    value=""
+                    data-i18n="user_type_label"
+                >
+                    Select User Type
+                </option>
+
+                <option
+                    value="farmer"
+                    data-i18n="user_type_farmer" >
+                    farmer
+                </option>
+
+                <option
+                    value="buyer"
+                    data-i18n="user_type_buyer"
+                >
+                    buyer
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Phone Number -->
+
+        <div class="input-group">
+
+            <i class="fa fa-phone"></i>
+
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Phone Number"
+                data-i18n-placeholder="phone_placeholder"
+                required
+            >
+
+        </div>
+
+
+        <!-- Register Button -->
+
+        <button
+            type="submit"
+            id="registerSubmit"
+            data-i18n="register_submit"
+        >
+            Register
+        </button>
+
+
+        <!-- Result Message -->
+
+        <div
+            id="result"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+    </form>
+
+
+    <!-- Login Link -->
+
+    <div class="links">
+
+        <a
+            href="index.html"
+            data-i18n="already_have_account"
+        >
+            Already have an account? Login
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SUCCESS BOX
+========================== -->
+
+<div class="success-box" id="successBox">
+
+    <h2>
+        🎉 Registration Successful!
+    </h2>
+
+    <p>
+        Your account has been created successfully.
+    </p>
+
+    <a
+        href="index.html"
+        class="btn"
+    >
+        Back to Login
+    </a>
+
+</div>
+
+
+<!-- =========================
+     REGISTRATION JAVASCRIPT
+========================== -->
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("registerForm");
+    const resultDiv = document.getElementById("result");
+    const registerButton = document.getElementById("registerSubmit");
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        // =========================
+        // GET FORM VALUES
+        // =========================
+
+        const full_name = document.getElementById("fullname").value.trim();
+
+        const email = document.getElementById("email").value.trim();
+
+        const username = document.getElementById("username").value.trim();
+
+        const password = document.getElementById("password").value;
+
+        const confirm_password =
+            document.getElementById("confirm_password").value;
+
+        const user_type =
+            document.getElementById("user_type").value.trim();
+
+        const phone_no =
+            document.getElementById("phone").value.trim();
+
+
+        // =========================
+        // CLEAR MESSAGE
+        // =========================
+
+        resultDiv.textContent = "";
+        resultDiv.style.color = "";
+
+
+        // =========================
+        // PASSWORD CHECK
+        // =========================
+
+        if (password !== confirm_password) {
+
+            resultDiv.textContent =
+                "Passwords do not match.";
+
+            resultDiv.style.color = "#b00020";
+
+            return;
+        }
+
+
+        // =========================
+        // EMPTY FIELD CHECK
+        // =========================
+
+        if (
+            full_name === "" ||
+            email === "" ||
+            username === "" ||
+            password === "" ||
+            user_type === "" ||
+            phone_no === ""
+        ) {
+
+            resultDiv.textContent =
+                "Please fill all fields.";
+
+            resultDiv.style.color = "#b00020";
+
+            return;
+        }
+
+
+        // =========================
+        // USER TYPE CHECK
+        // =========================
+
+        if (
+            user_type !== "farmer" &&
+            user_type !== "buyer"
+        ) {
+
+            resultDiv.textContent =
+                "Invalid user type. Please select Farmer or Buyer.";
+
+            resultDiv.style.color = "#b00020";
+
+            return;
+        }
+
+
+        // =========================
+        // EMAIL CHECK
+        // =========================
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            resultDiv.textContent =
+                "Please enter a valid email address.";
+
+            resultDiv.style.color = "#b00020";
+
+            return;
+        }
+
+
+        // =========================
+        // PHONE CHECK
+        // =========================
+
+        const phonePattern = /^[0-9]{10}$/;
+
+        if (!phonePattern.test(phone_no)) {
+
+            resultDiv.textContent =
+                "Please enter a valid 10-digit phone number.";
+
+            resultDiv.style.color = "#b00020";
+
+            return;
+        }
+
+
+        // =========================
+        // DISABLE BUTTON
+        // =========================
+
+        registerButton.disabled = true;
+        registerButton.textContent = "Registering...";
+
+
+        // =========================
+        // CREATE DATA
+        // =========================
+
+        const registrationData = {
+            full_name: full_name,
+            email: email,
+            username: username,
+            password: password,
+            user_type: user_type,
+            phone_no: phone_no
+        };
+
+
+        // =========================
+        // DEBUG
+        // =========================
+
+        console.log(
+            "User Type Being Sent:",
+            user_type
+        );
+
+        console.log(
+            "Registration Data:",
+            registrationData
+        );
+
+
+        // =========================
+        // SEND TO PHP
+        // =========================
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:8081/mypro/trial/register.php",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(registrationData)
+                }
+            );
+
+
+            // =========================
+            // CHECK RESPONSE
+            // =========================
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server error: " + response.status
+                );
+            }
+
+
+            // =========================
+            // GET JSON RESPONSE
+            // =========================
+
+            const data = await response.json();
+
+            console.log(
+                "PHP Response:",
+                data
+            );
+
+
+            // =========================
+            // SUCCESS
+            // =========================
+
+            if (data.success === true) {
+
+                resultDiv.textContent =
+                    data.message ||
+                    "Registration successful!";
+
+                resultDiv.style.color = "#2e7d32";
+
+
+                setTimeout(function () {
+
+                    document.getElementById(
+                        "registerBox"
+                    ).style.display = "none";
+
+
+                    document.getElementById(
+                        "successBox"
+                    ).style.display = "block";
+
+                }, 500);
+
+            }
+
+
+            // =========================
+            // PHP ERROR
+            // =========================
+
+            else {
+
+                resultDiv.textContent =
+                    data.message ||
+                    "Registration failed.";
+
+                resultDiv.style.color = "#b00020";
+
+                registerButton.disabled = false;
+
+                registerButton.textContent = "Register";
+            }
+
+        }
+
+
+        // =========================
+        // CONNECTION ERROR
+        // =========================
+
+        catch (error) {
+
+            console.error(
+                "Registration Error:",
+                error
+            );
+
+            resultDiv.textContent =
+                "Unable to connect to server. " +
+                "Please make sure XAMPP Apache " +
+                "and MySQL are running.";
+
+            resultDiv.style.color = "#b00020";
+
+            registerButton.disabled = false;
+
+            registerButton.textContent = "Register";
+        }
+
+    });
+
+});
+
+</script>
+
+
+
+
+<!-- Language / Translation Script -->
+
+<script src="./i18n.js"></script>
+
+</body>
+
+</html>

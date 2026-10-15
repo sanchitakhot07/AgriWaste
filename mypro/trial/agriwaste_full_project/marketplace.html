@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Marketplace - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../animations.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      background: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    nav {
+      background: #43a047;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover, nav a.active {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 30px;
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: white;
+      color: #4caf50;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #e8f5e9;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Search & filter */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .filter-bar input, .filter-bar select {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(76, 175, 80, 0.3);
+      background: linear-gradient(135deg, #f9fff9, #fff, #e8f5e9);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      transform: translateY(0);
+    }
+
+    .card button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .card button:hover {
+      background: linear-gradient(135deg, #388e3c, #4caf50);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+
+    .card button:hover::before {
+      left: 100%;
+    }
+
+    .card button:active {
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      background: #43a047;
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+      margin: 0 5px;
+    }
+
+    /* Embed mode: when loaded inside dashboard */
+    body.embed-mode header,
+    body.embed-mode nav,
+    body.embed-mode footer { display: none; }
+    body.embed-mode .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body data-i18n-title="market_page_title">
+  <header>
+    <h1 class="site-title" data-i18n="market_header_title">AgriWaste Marketplace</h1>
+    <div class="site-tag" data-i18n="market_header_tag">Available agricultural waste listings</div>
+  </header>
+
+  <section class="hero">
+    <h2 data-i18n="market_hero_h2">Turn Agricultural Waste into Opportunity!</h2>
+    <p data-i18n="market_hero_p">Buy & sell farm residues for compost, biofuel, animal feed, and more.</p>
+    <a href="#cards" class="btn" data-i18n="market_hero_btn">Explore Listings</a>
+  </section>
+
+  <main class="container">
+    <h2 data-i18n="market_main_title">Available Items</h2>
+
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="Search by name..." data-i18n-placeholder="market_search_placeholder" onkeyup="filterItems()">
+      <select id="priceFilter" onchange="filterItems()">
+        <option value="all" data-i18n="market_filter_all">All Prices</option>
+        <option value="0-400" data-i18n="market_filter_0_400">Below ₹400</option>
+        <option value="400-700" data-i18n="market_filter_400_700">₹400 - ₹700</option>
+        <option value="700-1000" data-i18n="market_filter_700_1000">₹700 - ₹1000</option>
+        <option value="1000-2000" data-i18n="market_filter_1000_2000">Above ₹1000</option>
+      </select>
+    </div>
+
+    <div class="cards" id="cards">
+      <!-- All 16 items with data-name and data-price -->
+      <div class="card" data-name="Rice Straw" data-price="500">
+        <img src="images/rice_straw.jpeg" alt="Rice Straw" data-i18n-alt-attr="product_rice_straw" onerror="this.src='https://source.unsplash.com/400x300/?straw,field'">
+        <h3 data-i18n="product_rice_straw">Rice Straw</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_rice_straw">Compost, Animal bedding, Paper pulp</span></p>
+        <p><strong>Quantity:</strong> 10 tons</p>
+        <p><strong>Price:</strong> ₹500 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Rice Straw">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Sugarcane Bagasse" data-price="700">
+        <img src="images/sugarcane_bagasse.jpeg" alt="Sugarcane Bagasse" data-i18n-alt-attr="product_sugarcane_bagasse" onerror="this.src='https://source.unsplash.com/400x300/?bagasse,sugarcane'">
+        <h3 data-i18n="product_sugarcane_bagasse">Sugarcane Bagasse</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_sugarcane_bagasse">Biofuel, Paper/board manufacturing</span></p>
+        <p><strong>Quantity:</strong> 6 tons</p>
+        <p><strong>Price:</strong> ₹700 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Sugarcane Bagasse">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Coconut Husk" data-price="400">
+        <img src="images/coconut.jpg" alt="Coconut Husk" data-i18n-alt-attr="product_coconut_husk" onerror="this.src='https://source.unsplash.com/400x300/?coconut,husk'">
+        <h3 data-i18n="product_coconut_husk">Coconut Husk</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_coconut_husk">Coir production, Mulch</span></p>
+        <p><strong>Quantity:</strong> 8 tons</p>
+        <p><strong>Price:</strong> ₹400 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Coconut Husk">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Compost Material" data-price="1200">
+        <img src="images/compost.jpeg" alt="Compost" data-i18n-alt-attr="product_compost_material" onerror="this.src='https://source.unsplash.com/400x300/?compost,farming'">
+        <h3 data-i18n="product_compost_material">Compost Material</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_compost_material">Soil amendment, Organic farming</span></p>
+        <p><strong>Quantity:</strong> 4 tons</p>
+        <p><strong>Price:</strong> ₹1200 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Compost Material">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Wheat Straw" data-price="600">
+        <img src="images/wheat.jpeg" alt="Wheat Straw" data-i18n-alt-attr="product_wheat_straw" onerror="this.src='https://source.unsplash.com/400x300/?wheat,straw'">
+        <h3 data-i18n="product_wheat_straw">Wheat Straw</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_wheat_straw">Cattle feed, Mulch, Compost</span></p>
+        <p><strong>Quantity:</strong> 12 tons</p>
+        <p><strong>Price:</strong> ₹600 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Wheat Straw">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Banana Fiber Waste" data-price="900">
+        <img src="images/banana.jpeg" alt="Banana Fiber" data-i18n-alt-attr="product_banana_fiber_waste" onerror="this.src='https://source.unsplash.com/400x300/?banana,fiber'">
+        <h3 data-i18n="product_banana_fiber_waste">Banana Fiber Waste</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_banana_fiber_waste">Rope, Handicrafts, Pulp</span></p>
+        <p><strong>Quantity:</strong> 5 tons</p>
+        <p><strong>Price:</strong> ₹900 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Banana Fiber Waste">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Corn Cobs" data-price="550">
+        <img src="images/corn.jpeg" alt="Corn Cobs" data-i18n-alt-attr="product_corn_cobs" onerror="this.src='https://source.unsplash.com/400x300/?corn,cob'">
+        <h3 data-i18n="product_corn_cobs">Corn Cobs</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_corn_cobs">Biofuel, Fodder, Activated carbon</span></p>
+        <p><strong>Quantity:</strong> 15 tons</p>
+        <p><strong>Price:</strong> ₹550 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Corn Cobs">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Peanut Shells" data-price="480">
+        <img src="images/peanut.jpg" alt="Peanut Shells" data-i18n-alt-attr="product_peanut_shells" onerror="this.src='https://source.unsplash.com/400x300/?peanut,shell'">
+        <h3 data-i18n="product_peanut_shells">Peanut Shells</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_peanut_shells">Fuel, Particle board, Compost</span></p>
+        <p><strong>Quantity:</strong> 9 tons</p>
+        <p><strong>Price:</strong> ₹480 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Peanut Shells">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Fruit Waste" data-price="650">
+        <img src="images/fruit.jpeg" alt="Fruit Waste" data-i18n-alt-attr="product_fruit_waste" onerror="this.src='https://source.unsplash.com/400x300/?fruit,waste'">
+        <h3 data-i18n="product_fruit_waste">Fruit Waste</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_fruit_waste">Biogas, Animal feed, Organic compost</span></p>
+        <p><strong>Quantity:</strong> 7 tons</p>
+        <p><strong>Price:</strong> ₹650 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Fruit Waste">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Tea Waste" data-price="300">
+        <img src="images/tea.jpeg" alt="Tea Waste" data-i18n-alt-attr="product_tea_waste" onerror="this.src='https://source.unsplash.com/400x300/?tea,waste'">
+        <h3 data-i18n="product_tea_waste">Tea Waste</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_tea_waste">Compost, Mushroom cultivation</span></p>
+        <p><strong>Quantity:</strong> 3 tons</p>
+        <p><strong>Price:</strong> ₹300 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Tea Waste">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Bamboo Waste" data-price="800">
+        <img src="images/bamboo.jpeg" alt="Bamboo Waste" data-i18n-alt-attr="product_bamboo_waste" onerror="this.src='https://source.unsplash.com/400x300/?bamboo,waste'">
+        <h3 data-i18n="product_bamboo_waste">Bamboo Waste</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_bamboo_waste">Biochar, Handicrafts, Construction boards</span></p>
+        <p><strong>Quantity:</strong> 6 tons</p>
+        <p><strong>Price:</strong> ₹800 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Bamboo Waste">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Cotton Stalks" data-price="500">
+        <img src="images/cotton.jpeg" alt="Cotton Stalks" data-i18n-alt-attr="product_cotton_stalks" onerror="this.src='https://source.unsplash.com/400x300/?cotton,stalk'">
+        <h3 data-i18n="product_cotton_stalks">Cotton Stalks</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_cotton_stalks">Fuel, Paper pulp, Particle board</span></p>
+        <p><strong>Quantity:</strong> 11 tons</p>
+        <p><strong>Price:</strong> ₹500 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Cotton Stalks">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Mango Seed Waste" data-price="700">
+        <img src="images/mango.jpeg" alt="Mango Seed Waste" data-i18n-alt-attr="product_mango_seed_waste" onerror="this.src='https://source.unsplash.com/400x300/?mango,seed'">
+        <h3 data-i18n="product_mango_seed_waste">Mango Seed Waste</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_mango_seed_waste">Oil extraction, Cattle feed, Compost</span></p>
+        <p><strong>Quantity:</strong> 4 tons</p>
+        <p><strong>Price:</strong> ₹700 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Mango Seed Waste">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Sawdust" data-price="350">
+        <img src="images/saw.jpeg" alt="Sawdust" data-i18n-alt-attr="product_sawdust" onerror="this.src='https://source.unsplash.com/400x300/?sawdust,wood'">
+        <h3 data-i18n="product_sawdust">Sawdust</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_sawdust">Particle boards, Biofuel briquettes, Compost</span></p>
+        <p><strong>Quantity:</strong> 20 tons</p>
+        <p><strong>Price:</strong> ₹350 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Sawdust">Sell Now</button>
+      </div>
+
+      <div class="card" data-name="Mustard Husk" data-price="450">
+        <img src="images/mustard.jpeg" alt="Mustard Husk" data-i18n-alt-attr="product_mustard_husk" onerror="this.src='https://source.unsplash.com/400x300/?mustard,husk'">
+        <h3 data-i18n="product_mustard_husk">Mustard Husk</h3>
+        <p><strong>Use:</strong> <span data-i18n="use_desc_mustard_husk">Fuel, Cattle feed, Organic compost</span></p>
+        <p><strong>Quantity:</strong> 8 tons</p>
+        <p><strong>Price:</strong> ₹450 / ton</p>
+        <button class="sell-btn" data-i18n="market_card_sell_now" data-product="Mustard Husk">Sell Now</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <span data-i18n="market_footer_links">© 2025 AgriWaste Marketplace | </span>
+    <a href="#" data-i18n="market_footer_fb">Facebook</a> | 
+    <a href="#" data-i18n="market_footer_ig">Instagram</a> | 
+    <a href="#" data-i18n="market_footer_tw">Twitter</a>
+  </footer>
+
+  <script src="../i18n.js"></script>
+
+  <script>
+    function filterItems() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const priceValue = document.getElementById('priceFilter').value;
+      const cards = document.querySelectorAll('.cards .card');
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name').toLowerCase();
+        const price = parseInt(card.getAttribute('data-price'));
+
+        let showByName = name.includes(searchValue);
+        let showByPrice = false;
+
+        if(priceValue === 'all') showByPrice = true;
+        else if(priceValue === '0-400' && price < 400) showByPrice = true;
+        else if(priceValue === '400-700' && price >= 400 && price <= 700) showByPrice = true;
+        else if(priceValue === '700-1000' && price > 700 && price <= 1000) showByPrice = true;
+        else if(priceValue === '1000-2000' && price > 1000) showByPrice = true;
+
+        card.style.display = (showByName && showByPrice) ? 'block' : 'none';
+      });
+    }
+
+    // Connect Sell Now buttons to existing sell form
+    document.addEventListener('DOMContentLoaded', function() {
+      const sellButtons = document.querySelectorAll('.sell-btn');
+      
+      // Add click event to all sell buttons
+      sellButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const productName = this.getAttribute('data-product');
+          
+          // Store the selected product in localStorage to pre-fill the form
+          localStorage.setItem('selectedProduct', productName);
+          
+          // Redirect to the sell form page
+          window.location.href = 'sell.html';
+        });
+      });
+    });
+  </script>
+  <script>
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.body.classList.add('embed-mode');
+        }
+      }catch(e){}
+    })();
+  </script>
+</body>
+</html>

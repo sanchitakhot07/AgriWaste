@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>About Us - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f7f2;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      color: white;
+      text-align: center;
+      padding: 50px 20px 30px 20px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    header .site-tag {
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      background: #43a047;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover, nav a.active {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      background: rgba(255, 255, 255, 0.85);
+      z-index: 1;
+    }
+
+    h2, h3 {
+      color: #2e7d32;
+    }
+
+    p, li {
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      background: #43a047;
+      color: white;
+      padding: 12px;
+      margin-top: 40px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .plant-icon {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      opacity: 0.6;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    .plant1 { left: 5%; top: 10%; background-image: url('https://cdn-icons-png.flaticon.com/512/2907/2907425.png'); animation: floatPlant 15s linear infinite; }
+    .plant2 { left: 20%; top: 20%; background-image: url('https://cdn-icons-png.flaticon.com/512/2907/2907421.png'); animation: floatPlant 18s linear infinite; }
+    .plant3 { left: 50%; top: 5%; background-image: url('https://cdn-icons-png.flaticon.com/512/2907/2907427.png'); animation: floatPlant 20s linear infinite; }
+    .plant4 { left: 70%; top: 15%; background-image: url('https://cdn-icons-png.flaticon.com/512/2907/2907423.png'); animation: floatPlant 17s linear infinite; }
+    .plant5 { left: 85%; top: 8%; background-image: url('https://cdn-icons-png.flaticon.com/512/2907/2907429.png'); animation: floatPlant 22s linear infinite; }
+
+    @keyframes floatPlant {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(300px) rotate(180deg); opacity: 0.8; }
+      100% { transform: translateY(650px) rotate(360deg); opacity: 0.6; }
+    }
+
+    /* Embed mode for dashboard iframes */
+    body.embed-mode header,
+    body.embed-mode nav,
+    body.embed-mode footer { display:none; }
+    body.embed-mode .container { max-width: 100%; margin: 0; padding: 24px; border-radius: 0; box-shadow: none; background: #fff; }
+
+  </style>
+</head>
+<body data-i18n-title="about_page_title">
+  <header>
+    <h1 data-i18n="about_header_title">About AgriWaste Marketplace</h1>
+    <div class="site-tag" data-i18n="about_header_tag">Our mission & vision</div>
+  </header>
+
+  <main class="container">
+    <h2 data-i18n="about_main_title">About Us</h2>
+    <p data-i18n="about_intro">
+      At AgriWaste Marketplace, our mission is to reduce agricultural waste burning and dumping by connecting farmers with buyers who can repurpose crop residues as valuable raw materials. By doing so, we promote sustainable livelihoods, support renewable resource use, and minimize environmental impacts.
+    </p>
+
+    <h3 data-i18n="about_why_title">Why This Matters</h3>
+    <ul>
+      <li data-i18n="about_why_1">Cleaner Air: Reduces air pollution caused by burning crop residues.</li>
+      <li data-i18n="about_why_2">Farmer Income: Creates additional revenue streams for farmers.</li>
+      <li data-i18n="about_why_3">Sustainability: Encourages a circular economy through reuse of agricultural waste.</li>
+    </ul>
+
+    <h3 data-i18n="about_impact_title">Our Impact</h3>
+    <ul>
+      <li data-i18n="about_impact_1">Turning crop residues into compost improves soil health.</li>
+      <li data-i18n="about_impact_2">Producing biogas from agriwaste generates energy for local communities, reducing reliance on non-renewable sources.</li>
+    </ul>
+
+    <p data-i18n="about_closing">At AgriWaste Marketplace, we’re committed to building a greener, more sustainable future—one crop residue at a time.</p>
+
+
+
+  </main>
+
+  <footer><span data-i18n="footer_copyright">© 2025 AgriWaste Marketplace</span></footer>
+  <script src="../i18n.js"></script>
+  <script>
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.body.classList.add('embed-mode');
+        }
+      }catch(e){}
+    })();
+  </script>
+</body>
+</html>

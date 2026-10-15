@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard - AgriWaste Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --secondary-color: #1565c0;
+            --accent-color: #64b5f6;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .logo {
+            padding: 1.5rem 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo a span {
+            color: var(--accent-color);
+        }
+        
+        .nav-menu {
+            padding: 0 1rem;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(25, 118, 210, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+        }
+        
+        .logout-link {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            padding: 0 1.5rem;
+        }
+        
+        .logout-link .nav-link {
+            color: #d32f2f;
+        }
+        
+        .logout-link .nav-link:hover {
+            background-color: rgba(211, 47, 47, 0.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+        
+        /* Header */
+        .header {
+            background-color: white;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-toggle {
+            font-size: 1.5rem;
+            color: #555;
+            cursor: pointer;
+            margin-right: 1.5rem;
+            display: none;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .notification-icon, .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-icon i, .user-profile img {
+            font-size: 1.5rem;
+            color: #555;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .user-avatar span {
+            color: #1976d2;
+            font-weight: 700;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        /* Dashboard Content */
+        .content {
+            padding: 2rem;
+            min-height: calc(100vh - var(--header-height));
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Recent Orders */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: #555;
+            background-color: #f9f9f9;
+        }
+        
+        .status {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-processing {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(25, 118, 210, 0.05);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .header {
+                padding: 0 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Embedded pages */
+        .embed-page {
+            height: calc(100vh - 140px);
+            width: 100%;
+        }
+        .embed-page iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <a href="#"><i class="fas fa-industry"></i> AgriWaste<span>Market</span></a>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="buy-inbox">
+                    <i class="fas fa-shopping-cart"></i> Buy Waste
+                </a>
+            </div>
+            
+           
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="feedback">
+                    <i class="fas fa-comments"></i> Contact Feedback
+                </a>
+            </div>
+           
+            
+            <div class="logout-link">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-icon">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <span aria-hidden="true">C</span>
+                    </div>
+                    <span class="user-name">GreenTech Solutions</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page-content active">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #2196f3;">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>24</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #4caf50;">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>₹87,500</h3>
+                            <p>Total Spent</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #ff9800;">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>5</h3>
+                            <p>In Progress</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #9c27b0;">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12</h3>
+                            <p>Suppliers</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Orders</h2>
+                        <a href="#" class="btn btn-primary">View All Orders</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Supplier</th>
+                                    <th>Material</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gallery Page -->
+            <div id="gallery" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/gallery.html" title="Gallery"></iframe>
+                </div>
+            </div>
+            
+            <!-- Marketplace Page -->
+            <div id="marketplace" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/marketplace.html" title="Marketplace"></iframe>
+                </div>
+            </div>
+            
+            <!-- Sell Waste Page -->
+            <div id="sell-waste" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/sell.html" title="Sell Waste"></iframe>
+                </div>
+            </div>
+            
+
+            
+            <!-- Buy Waste Inbox (company-specific) -->
+            <div id="buy-inbox" class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Buy Requests</h2>
+                        <div>
+                            <button id="refreshBuyInbox" class="btn" style="padding: 0.4rem 0.9rem;">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="buyInboxTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Farmer</th>
+                                    <th>Waste</th>
+                                    <th>Qty (tons)</th>
+                                    <th>Price/ton</th>
+                                    <th>Location</th>
+                                    <th>Email</th>
+                                    <th>Phone number</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <p id="buyInboxEmpty" style="color:#777; display:none;">No requests yet.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chatbot Page -->
+            <div id="chatbot" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/chatbot.html" title="Chatbot"></iframe>
+                </div>
+            </div>
+            
+            <!-- Contact Page -->
+            <div id="contact" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/contact.html" title="Contact"></iframe>
+                </div>
+            </div>
+
+            <!-- Contact Feedback (company-specific) -->
+            <div id="feedback" class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Contact Feedback</h2>
+                        <div>
+                            <button id="refreshFeedback" class="btn" style="padding: 0.4rem 0.9rem;">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="feedbackTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <p id="feedbackEmpty" style="color:#777; display:none;">No feedback yet.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Page -->
+            <div id="about" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/about.html" title="About"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+
+    // =========================================================
+    // COMPANY / BUYER AUTHENTICATION
+    // =========================================================
+
+    async function checkCompanyAuthentication() {
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:8081/mypro/trial/check_buyer.php",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Authentication server returned HTTP " +
+                    response.status
+                );
+            }
+
+            const data = await response.json();
+
+            console.log("Authentication response:", data);
+
+            // ---------------------------------------------
+            // NOT LOGGED IN
+            // ---------------------------------------------
+
+            if (!data.success) {
+
+                alert(
+                    "Please login as a Company/Buyer first."
+                );
+
+                window.location.replace(
+                    "companylogin.html"
+                );
+
+                return false;
+            }
+
+            // ---------------------------------------------
+            // CHECK USER TYPE
+            // ---------------------------------------------
+
+            if (
+                !data.user ||
+                data.user.user_type !== "buyer"
+            ) {
+
+                alert(
+                    "Access denied. Company account required."
+                );
+
+                window.location.replace(
+                    "companylogin.html"
+                );
+
+                return false;
+            }
+
+            // ---------------------------------------------
+            // STORE LOGGED-IN USER
+            // ---------------------------------------------
+
+            localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(data.user)
+            );
+
+            // Store company name for existing dashboard
+            localStorage.setItem(
+                "companyName",
+                data.user.full_name
+            );
+
+            // ---------------------------------------------
+            // DISPLAY COMPANY NAME
+            // ---------------------------------------------
+
+            const nameElement =
+                document.querySelector(".user-name");
+
+            const avatarElement =
+                document.querySelector(".user-avatar span");
+
+            if (nameElement) {
+
+                nameElement.textContent =
+                    data.user.full_name;
+            }
+
+            if (avatarElement) {
+
+                const name =
+                    data.user.full_name || "C";
+
+                avatarElement.textContent =
+                    name.trim()
+                        .charAt(0)
+                        .toUpperCase();
+            }
+
+            console.log(
+                "Company authenticated successfully:",
+                data.user
+            );
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "Authentication error:",
+                error
+            );
+
+            alert(
+                "Unable to verify your login. Please login again."
+            );
+
+            window.location.replace(
+                "companylogin.html"
+            );
+
+            return false;
+        }
+    }
+
+
+    // =========================================================
+    // START AUTHENTICATION
+    // =========================================================
+
+    checkCompanyAuthentication();
+
+
+    // =========================================================
+    // TOGGLE SIDEBAR ON MOBILE
+    // =========================================================
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    if (menuToggle && sidebar) {
+
+        menuToggle.addEventListener("click", () => {
+
+            sidebar.classList.toggle("active");
+
+        });
+
+    }
+
+
+    // =========================================================
+    // NAVIGATION BETWEEN PAGES
+    // =========================================================
+
+    const navLinks =
+        document.querySelectorAll(".nav-link");
+
+    const pageContents =
+        document.querySelectorAll(".page-content");
+
+    const pageTitle =
+        document.getElementById("pageTitle");
+
+
+    // =========================================================
+    // LOAD IFRAME
+    // =========================================================
+
+    function loadIframeFor(container) {
+
+        const iframe =
+            container.querySelector("iframe");
+
+        if (!iframe) {
+            return;
+        }
+
+        if (
+            !iframe.src &&
+            iframe.dataset.src
+        ) {
+
+            iframe.src =
+                iframe.dataset.src;
+        }
+    }
+
+
+    // =========================================================
+    // UNLOAD IFRAME
+    // =========================================================
+
+    function unloadIframeFor(container) {
+
+        const iframe =
+            container.querySelector("iframe");
+
+        if (!iframe) {
+            return;
+        }
+
+        if (
+            !iframe.dataset.src &&
+            iframe.src
+        ) {
+
+            iframe.dataset.src =
+                iframe.src;
+        }
+
+        iframe.src = "";
+    }
+
+
+    // =========================================================
+    // INITIALIZE IFRAME PAGES
+    // =========================================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            pageContents.forEach(
+                content => {
+
+                    const iframe =
+                        content.querySelector("iframe");
+
+                    if (!iframe) {
+                        return;
+                    }
+
+                    if (
+                        content.classList.contains(
+                            "active"
+                        )
+                    ) {
+
+                        if (
+                            !iframe.src &&
+                            iframe.dataset.src
+                        ) {
+
+                            iframe.src =
+                                iframe.dataset.src;
+                        }
+
+                    } else {
+
+                        if (iframe.src) {
+
+                            iframe.dataset.src =
+                                iframe.src;
+
+                            iframe.src = "";
+                        }
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    // =========================================================
+    // NAVIGATION CLICK
+    // =========================================================
+
+    navLinks.forEach(link => {
+
+        link.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                const targetPage =
+                    link.getAttribute(
+                        "data-page"
+                    );
+
+                if (!targetPage) {
+                    return;
+                }
+
+                // -----------------------------------------
+                // UPDATE ACTIVE NAVIGATION
+                // -----------------------------------------
+
+                navLinks.forEach(
+                    navLink => {
+
+                        navLink.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+                link.classList.add("active");
+
+
+                // -----------------------------------------
+                // UPDATE PAGE TITLE
+                // -----------------------------------------
+
+                if (pageTitle) {
+
+                    pageTitle.textContent =
+                        link.textContent.trim();
+                }
+
+
+                // -----------------------------------------
+                // SHOW TARGET PAGE
+                // -----------------------------------------
+
+                pageContents.forEach(
+                    content => {
+
+                        if (
+                            content.id ===
+                            targetPage
+                        ) {
+
+                            content.classList.add(
+                                "active"
+                            );
+
+                            loadIframeFor(
+                                content
+                            );
+
+
+                            // Load company-specific
+                            // data when required
+
+                            if (
+                                targetPage ===
+                                "buy-inbox"
+                            ) {
+
+                                renderBuyInbox();
+                            }
+
+
+                            if (
+                                targetPage ===
+                                "feedback"
+                            ) {
+
+                                renderFeedback();
+                            }
+
+                        } else {
+
+                            content.classList.remove(
+                                "active"
+                            );
+
+                            unloadIframeFor(
+                                content
+                            );
+                        }
+
+                    }
+                );
+
+
+                // -----------------------------------------
+                // CLOSE MOBILE SIDEBAR
+                // -----------------------------------------
+
+                if (
+                    window.innerWidth <= 992 &&
+                    sidebar
+                ) {
+
+                    sidebar.classList.remove(
+                        "active"
+                    );
+                }
+
+            }
+        );
+
+    });
+
+
+    // =========================================================
+    // CLOSE SIDEBAR WHEN CLICKING OUTSIDE
+    // =========================================================
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (
+                window.innerWidth <= 992 &&
+                sidebar &&
+                menuToggle &&
+                !sidebar.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+
+                sidebar.classList.remove(
+                    "active"
+                );
+            }
+
+        }
+    );
+
+
+    // =========================================================
+    // GET CURRENT COMPANY NAME
+    // =========================================================
+
+    function currentCompanyName() {
+
+        try {
+
+            return (
+                localStorage.getItem(
+                    "companyName"
+                ) || ""
+            );
+
+        } catch (error) {
+
+            return "";
+        }
+    }
+
+
+    // =========================================================
+    // PERSONALIZE COMPANY NAME
+    // =========================================================
+
+    function personalizeCompany() {
+
+        try {
+
+            const name =
+                localStorage.getItem(
+                    "companyName"
+                ) || "Company User";
+
+            const nameElement =
+                document.querySelector(
+                    ".user-name"
+                );
+
+            const avatarElement =
+                document.querySelector(
+                    ".user-avatar span"
+                );
+
+            if (nameElement) {
+
+                nameElement.textContent =
+                    name;
+            }
+
+            if (avatarElement) {
+
+                avatarElement.textContent =
+                    name.trim()
+                        .charAt(0)
+                        .toUpperCase() || "C";
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Personalization error:",
+                error
+            );
+        }
+    }
+
+
+    personalizeCompany();
+
+
+    // =========================================================
+    // FORMAT DATE
+    // =========================================================
+
+    function fmtDate(iso) {
+
+        try {
+
+            return new Date(
+                iso
+            ).toLocaleString();
+
+        } catch (error) {
+
+            return iso || "";
+        }
+    }
+
+document.getElementById("refreshBuyInbox")
+    ?.addEventListener("click", renderBuyInbox);
+
+async function renderBuyInbox() {
+    const tbody = document.querySelector("#buyInboxTable tbody");
+    const empty = document.getElementById("buyInboxEmpty");
+
+    if (!tbody) {
+        console.error("Buy Waste table body not found.");
+        return;
+    }
+
+    function showMessage(message) {
+        tbody.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 9;
+        cell.textContent = message;
+        cell.style.textAlign = "center";
+
+        row.appendChild(cell);
+        tbody.appendChild(row);
+
+        if (empty) empty.style.display = "none";
+    }
+
+    try {
+        const savedUser = localStorage.getItem("loggedInUser");
+
+        if (!savedUser) {
+            showMessage("Please log in again as a buyer.");
+            return;
+        }
+
+        const user = JSON.parse(savedUser);
+
+        if (!user.id || user.user_type !== "buyer") {
+            showMessage("Buyer details are missing. Please log in again.");
+            return;
+        }
+
+        showMessage("Loading waste listings...");
+
+        // IMPORTANT: Fetch waste listings, not registered buyers.
+        const response = await fetch(
+            "http://localhost:8081/mypro/trial/get_buyers.php",
+            {
+                method: "GET",
+                credentials: "include",
+                cache: "no-store",
+                headers: { "Accept": "application/json" }
+            }
+        );
+
+        const responseText = await response.text();
+        console.log("get_buyer_waste.php response:", responseText);
+
+        if (!response.ok) {
+            throw new Error("HTTP error: " + response.status);
+        }
+
+        let data;
+
+        try {
+            data = JSON.parse(responseText);
+        } catch {
+            throw new Error("The PHP file did not return valid JSON.");
+        }
+
+        if (data.success !== true) {
+            throw new Error(data.message || "Could not load listings.");
+        }
+
+        if (!Array.isArray(data.listings)) {
+            throw new Error(
+                "get_buyer_waste.php must return a listings array. " +
+                "Received keys: " + Object.keys(data).join(", ")
+            );
+        }
+
+        tbody.replaceChildren();
+
+        if (data.listings.length === 0) {
+            showMessage("No waste listings assigned to this buyer yet.");
+            return;
+        }
+
+        data.listings.forEach(function (item) {
+            const row = document.createElement("tr");
+
+            const values = [
+                item.created_at
+                    ? new Date(
+                        String(item.created_at).replace(" ", "T")
+                      ).toLocaleDateString("en-IN")
+                    : "-",
+                item.farmer_name ?? "-",
+                item.waste_type ?? "-",
+                item.quantity ?? "-",
+                item.price != null ? "₹" + item.price : "-",
+                item.location ?? "-",
+                item.email ?? "-",
+                item.phone ?? "-"
+            ];
+
+            values.forEach(function (value) {
+                const cell = document.createElement("td");
+                cell.textContent = String(value);
+                row.appendChild(cell);
+            });
+
+            const imageCell = document.createElement("td");
+
+            if (item.image_path) {
+                const img = document.createElement("img");
+                const path = String(item.image_path);
+
+                img.src = /^https?:\/\//i.test(path)
+                    ? path
+                    : "http://localhost:8081/mypro/trial/agriwaste_full_project/" +
+                      path.replace(/^\/+/, "");
+
+                img.alt = "Waste image";
+                img.style.width = "80px";
+                img.style.height = "65px";
+                img.style.objectFit = "cover";
+
+                img.onerror = function () {
+                    imageCell.textContent = "Image unavailable";
+                };
+
+                imageCell.appendChild(img);
+            } else {
+                imageCell.textContent = "No image";
+            }
+
+            row.appendChild(imageCell);
+            tbody.appendChild(row);
+        });
+
+        if (empty) empty.style.display = "none";
+
+        console.log("Waste listings displayed:", data.listings.length);
+
+    } catch (error) {
+        console.error("Buy Inbox error:", error);
+        showMessage("Error: " + error.message);
+    }
+}
+
+// Refresh button, if present
+document.getElementById("refreshBuyInbox")
+    ?.addEventListener("click", renderBuyInbox);
+
+
+
+
+
+
+    // =========================================================
+    // UPDATE WHEN LOCAL STORAGE CHANGES
+    // =========================================================
+
+    window.addEventListener(
+        "storage",
+        () => {
+
+            const active =
+                document.querySelector(
+                    ".page-content.active"
+                );
+
+            if (!active) {
+                return;
+            }
+
+            if (
+                active.id ===
+                "buy-inbox"
+            ) {
+
+                renderBuyInbox();
+            }
+
+            if (
+                active.id ===
+                "feedback"
+            ) {
+
+                renderFeedback();
+            }
+
+        }
+    );
+
+
+
+
+    setInterval(
+        () => {
+
+            const active =
+                document.querySelector(
+                    ".page-content.active"
+                );
+
+            if (!active) {
+                return;
+            }
+
+            if (
+                active.id ===
+                "buy-inbox"
+            ) {
+
+                renderBuyInbox();
+            }
+
+            if (
+                active.id ===
+                "feedback"
+            ) {
+
+                renderFeedback();
+            }
+
+        },
+        10000
+    );
+
+    (function companyOnlineHeartbeat() {
+
+        const key =
+            "onlineCompanies";
+
+
+        function markOnline() {
+
+            try {
+
+                const name =
+                    localStorage.getItem(
+                        "companyName"
+                    );
+
+                if (!name) {
+                    return;
+                }
+
+                const raw =
+                    localStorage.getItem(key);
+
+                let list = [];
+
+                try {
+
+                    list =
+                        raw
+                            ? JSON.parse(raw)
+                            : [];
+
+                } catch (error) {
+
+                    list = [];
+                }
+
+                const now =
+                    Date.now();
+
+                const index =
+                    list.findIndex(
+                        company =>
+                            company &&
+                            company.name === name
+                    );
+
+
+                if (index >= 0) {
+
+                    list[index].lastSeen =
+                        now;
+
+                } else {
+
+                    list.push({
+                        name: name,
+                        lastSeen: now
+                    });
+                }
+
+
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(list)
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Heartbeat error:",
+                    error
+                );
+            }
+        }
+
+
+        document.addEventListener(
+            "visibilitychange",
+            () => {
+
+                if (!document.hidden) {
+                    markOnline();
+                }
+
+            }
+        );
+
+
+        window.addEventListener(
+            "focus",
+            markOnline
+        );
+
+
+        markOnline();
+
+
+        setInterval(
+            markOnline,
+            60000
+        );
+
+    })();
+
+
+
+    const logoutLink =
+        document.querySelector(
+            ".logout-link a"
+        );
+
+    if (logoutLink) {
+
+        logoutLink.addEventListener(
+            "click",
+            async function(event) {
+
+                event.preventDefault();
+
+                try {
+
+                    await fetch(
+                        "http://localhost:8081/mypro/trial/logout.php",
+                        {
+                            method: "POST",
+                            credentials: "include"
+                        }
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
+                }
+
+
+                // Remove local login information
+
+                localStorage.removeItem(
+                    "loggedInUser"
+                );
+
+                localStorage.removeItem(
+                    "companyName"
+                );
+
+
+                // Go to login page
+
+                window.location.replace(
+                    "company_login.html"
+                );
+
+            }
+        );
+
+    }
+
+</script>
+</body>
+</html>

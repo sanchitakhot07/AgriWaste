@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriWaste Marketplace - Welcome</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body {
+    min-height:100vh; display:flex; justify-content:flex-end; align-items:center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
+                url("agriwaste_full_project/images/agrilogin.png") center/cover no-repeat;
+}
+.particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.particle { position: absolute; background: rgba(76, 175, 80, 0.6); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+.particle:nth-child(1){width:8px;height:8px;left:10%;animation-delay:0s;}
+.particle:nth-child(2){width:12px;height:12px;left:20%;animation-delay:1s;}
+.particle:nth-child(3){width:6px;height:6px;left:30%;animation-delay:2s;}
+.particle:nth-child(4){width:10px;height:10px;left:40%;animation-delay:3s;}
+.particle:nth-child(5){width:14px;height:14px;left:50%;=animation-delay:4s;}
+.particle:nth-child(6){width:8px;height:8px;left:60%;animation-delay:5s;}
+.particle:nth-child(7){width:12px;height:12px;left:70%;animation-delay:0.5s;}
+.particle:nth-child(8){width:6px;height:6px;left:80%;animation-delay:1.5s;}
+@keyframes float {
+    0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+.login-container {
+    background: rgba(255,255,255,0.95);
+    padding:50px 40px; border-radius:20px; width:380px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.3);
+    margin-right:60px; position: relative; z-index: 10;
+    animation: slideInRight 1s ease-out;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+@keyframes slideInRight { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.login-container h2 { font-size:2rem; margin-bottom:25px; color:#2e7d32; display:flex; align-items:center; }
+.login-container h2 img { width:40px; margin-right:10px; }
+.input-group { position:relative; margin:18px 0; }
+.input-group input { width:100%; padding:14px 40px 14px 14px; border-radius:10px; border:1px solid #ccc; font-size:16px; outline:none; transition:0.3s;}
+.input-group input:focus { border-color:#4caf50; box-shadow:0 0 8px rgba(76,175,80,0.3);}
+.input-group svg { position:absolute; right:12px; top:50%; transform:translateY(-50%); width:20px; height:20px; fill:#4caf50;}
+button { width:100%; padding:14px; margin-top:15px; border:none; border-radius:10px; background:linear-gradient(90deg, #4caf50, #81c784); color:#fff; font-size:16px; font-weight:600; cursor:pointer; transition:0.3s;}
+button:hover { background:linear-gradient(90deg, #388e3c, #66bb6a); transform:translateY(-2px); }
+.links { margin-top:18px; font-size:14px; text-align:center; }
+.links a { color:#2e7d32; text-decoration:none; margin:0 5px; transition:0.3s; }
+.links a:hover { text-decoration:underline; }
+@media(max-width:900px){ body { justify-content:center; } .login-container { margin:20px; } }
+</style>
+</head>
+<body>
+
+<div class="particles">
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+</div>
+
+<div class="login-container">
+  <h2><img src="https://static.thenounproject.com/png/agriculture-icon-1080128-512.png" alt="Agri Icon"> AgriWaste Marketplace</h2>
+  <div class="links" style="margin-top: 10px;">
+    <span style="color:#555;">Login as</span>
+  </div>
+  <div class="input-group" style="margin-top:14px;">
+    <a href="farmer-login.html" style="display:block; text-align:center; text-decoration:none;">
+      <button type="button">Farmer Login</button>
+    </a>
+  </div>
+  <div class="input-group" style="margin-top:10px;">
+    <a href="company-login.html" style="display:block; text-align:center; text-decoration:none;">
+      <button type="button">Company Login</button>
+    </a>
+  </div>
+  <div class="links">
+    <a href="register.html" data-i18n="register_link">Register</a> 
+    <a href="forgot.html" data-i18n="forgot_link">Forgot Password?</a>
+  </div>
+</div>
+
+
+<!-- i18n loader (adds language selector automatically) -->
+<script src="./i18n.js"></script>
+
+</body>
+</html>

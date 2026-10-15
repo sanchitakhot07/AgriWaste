@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Login - AgriWaste Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1976d2;
+            --secondary-color: #1565c0;
+            --accent-color: #64b5f6;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        
+        .login-icon {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .forgot-password {
+            display: block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #777;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider::before {
+            margin-right: 1rem;
+        }
+        
+        .divider::after {
+            margin-left: 1rem;
+        }
+        
+        .signup-link {
+            margin-top: 1.5rem;
+            color: #666;
+        }
+        
+        .signup-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-home {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-home i {
+            margin-right: 5px;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>AgriWaste<span style="color: var(--accent-color);">Market</span></span>
+            </a>
+        </div>
+    </header>
+    
+    <main class="login-container">
+        <div class="login-card">
+            <div class="login-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h1 class="login-title">Company Login</h1>
+            
+            <form id="companyLoginForm">
+                <div class="form-group">
+                    <label for="company-name">Company Name</label>
+                    <input type="text" id="company-name" class="form-control" placeholder="Enter company name">
+                </div>
+                <div class="form-group">
+                    <label for="company-email">Company Email</label>
+                    <input type="email" id="company-email" class="form-control" placeholder="Enter company email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company-password">Password</label>
+                    <input type="password" id="company-password" class="form-control" placeholder="Enter your password" required>
+                    <a href="forgot.html" class="forgot-password">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn">Login</button>
+                
+                <div class="divider">or</div>
+                
+                <p class="signup-link">Don't have an account? <a href="register.html">Register Company</a></p>
+                
+                <a href="index.html" class="back-home">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 AgriWaste Marketplace. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+document.getElementById("companyLoginForm").addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("company-email").value.trim();
+    const password = document.getElementById("company-password").value;
+
+    const loginButton = this.querySelector("button[type='submit']");
+
+    // Create message area
+    let message = document.getElementById("loginMessage");
+
+    if (!message) {
+
+        message = document.createElement("p");
+
+        message.id = "loginMessage";
+        message.style.textAlign = "center";
+        message.style.marginTop = "15px";
+        message.style.fontWeight = "600";
+
+        this.appendChild(message);
+    }
+
+    message.textContent = "";
+
+    // Check empty fields
+    if (email === "" || password === "") {
+
+        message.textContent =
+            "Please enter email and password.";
+
+        message.style.color = "red";
+
+        return;
+    }
+
+    // Disable button
+    loginButton.disabled = true;
+    loginButton.textContent = "Logging in...";
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8081/mypro/trial/login.php",
+            {
+                method: "POST",
+
+                credentials: "include",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    username: email,
+                    password: password,
+                    login_type: "buyer"
+
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        console.log("Company Login Response:", data);
+
+        // LOGIN SUCCESS
+        if (data.success === true) {
+
+            message.textContent =
+                "Login successful!";
+
+            message.style.color = "green";
+
+            // Store logged-in buyer
+            localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(data.user)
+            );
+
+            // Redirect ONLY after successful login
+            setTimeout(function () {
+
+                window.location.href =
+                    "http://localhost:8081/mypro/trial/company-dashboard.html";
+
+            }, 500);
+
+        } else {
+
+            // LOGIN FAILED
+            // Wrong password / wrong email / wrong role
+
+            message.textContent =
+                data.message || "Incorrect email or password.";
+
+            message.style.color = "red";
+
+            // Stay on login page
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
+        }
+
+    } catch (error) {
+
+        console.error("Company Login Error:", error);
+
+        message.textContent =
+            "Unable to connect to login server.";
+
+        message.style.color = "red";
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+    }
+
+});
+</script>
+
+
+</body>
+</html>

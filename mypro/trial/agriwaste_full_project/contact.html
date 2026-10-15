@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Contact Us - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+
+  <style>
+    body { font-family: Arial,sans-serif; margin:0; padding:0; background:#f2f7f2; overflow-x:hidden; }
+    header { background: linear-gradient(135deg,#4caf50,#81c784); color:white; text-align:center; padding:50px 20px 30px 20px; border-radius:0 0 20px 20px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+    header h1 { margin:0; font-size:2.2rem; }
+    header .site-tag { margin-top:8px; font-size:1.1rem; }
+    nav { background:#43a047; padding:10px; text-align:center; }
+    nav a { color:white; text-decoration:none; margin:0 10px; font-weight:bold; }
+    nav a:hover, nav a.active { text-decoration:underline; }
+    .container { max-width:600px; margin:30px auto; padding:30px; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.1); background:rgba(255,255,255,0.85); position:relative; }
+    h2 { text-align:center; margin-bottom:25px; color:#2e7d32; }
+    .form-row { display:flex; align-items:center; margin-bottom:18px; gap:10px; }
+    .form-row label { flex:0 0 40px; display:flex; justify-content:center; align-items:center; }
+    .form-row input, .form-row textarea { flex:1; padding:12px; font-size:1rem; border-radius:8px; border:1px solid #ccc; }
+    .form-row input:focus, .form-row textarea:focus { outline:none; border-color:#4caf50; box-shadow:0 0 5px rgba(76,175,80,0.3); }
+    button.primary { background:#4caf50; color:white; border:none; padding:12px 25px; font-size:1rem; border-radius:25px; cursor:pointer; }
+    button.primary:hover { background:#388e3c; transform:translateY(-2px); }
+    footer { text-align:center; background:#43a047; color:white; padding:12px; margin-top:40px; border-top-left-radius:15px; border-top-right-radius:15px; }
+    
+    /* Embed mode for dashboard iframes */
+    body.embed-mode header,
+    body.embed-mode nav,
+    body.embed-mode footer { display:none; }
+    body.embed-mode .container { max-width: 100%; margin: 0; padding: 24px; border-radius: 0; box-shadow: none; background: #fff; }
+    section { margin-top:25px; text-align:center; color:#2e7d32; }
+    section h3 { margin-bottom:10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Contact Us</h1>
+    <div class="site-tag">We'd love to hear from you</div>
+  </header>
+
+  <main class="container">
+    <h2>Send a Message</h2>
+    <form id="contactForm">
+      <div class="form-row">
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-row">
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-row">
+        <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" required>
+      </div>
+      <div class="form-row">
+        <select id="company" name="company" title="Select Company" aria-label="Select Company">
+          <option value="general">General inquiry</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <textarea id="message" name="message" placeholder="Write your message..." required></textarea>
+      </div>
+      <div style="text-align:center;">
+        <button class="primary" type="submit">Send Message</button>
+      </div>
+    </form>
+
+    <p id="status" role="status" aria-live="polite"></p>
+  </main>
+
+<script>
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: form.name.value,
+      email: form.email.value,
+      mobile: form.mobile.value,
+      message: form.message.value,
+      company: form.company.value,
+    };
+
+    try {
+      const key = 'contact_feedback';
+      const raw = localStorage.getItem(key);
+      const messages = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(messages)) throw new Error('Saved contact messages are not in a valid format.');
+      const submittedMessage = { ...data, submittedAt: new Date().toISOString() };
+      messages.push(submittedMessage);
+      localStorage.setItem(key, JSON.stringify(messages));
+
+      if (data.company && data.company !== 'general') {
+        const inboxKey = `company_feedback_${data.company}`;
+        const inboxRaw = localStorage.getItem(inboxKey);
+        const inboxMessages = inboxRaw ? JSON.parse(inboxRaw) : [];
+        if (!Array.isArray(inboxMessages)) throw new Error('Saved company messages are not in a valid format.');
+        inboxMessages.push(submittedMessage);
+        localStorage.setItem(inboxKey, JSON.stringify(inboxMessages));
+      }
+
+      const status = document.getElementById('status');
+      status.textContent = 'Message saved in this browser only. It was not sent to a server.';
+      status.style.color = '#2e7d32';
+      form.reset();
+    } catch (error) {
+      const status = document.getElementById('status');
+      status.textContent = `Could not save your message in this browser: ${error.message}`;
+      status.style.color = '#b00020';
+    }
+  });
+</script>
+
+  <script>
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.body.classList.add('embed-mode');
+        }
+      }catch(e){}
+    })();
+  </script>
+
+  <script>
+    // Populate company dropdown from online companies (seen in last 5 minutes)
+    (function(){
+      const sel = document.getElementById('company');
+      function populateCompanies(){
+        try{
+          if (!sel) return;
+          const prev = sel.value;
+          while (sel.options.length > 1) sel.remove(1);
+          const raw = localStorage.getItem('onlineCompanies');
+          const list = raw ? JSON.parse(raw) : [];
+          const now = Date.now();
+          const active = list
+            .filter(c => c && c.name && typeof c.lastSeen === 'number' && (now - c.lastSeen) < 5*60*1000)
+            .sort((a,b) => a.name.localeCompare(b.name));
+          active.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = c.name;
+            sel.appendChild(opt);
+          });
+          if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+        }catch(e){}
+      }
+      populateCompanies();
+      window.addEventListener('storage', (ev) => { if (ev && ev.key === 'onlineCompanies') populateCompanies(); });
+      window.addEventListener('focus', populateCompanies);
+      setInterval(populateCompanies, 60 * 1000);
+    })();
+  </script>
+
+</body>
+</html>

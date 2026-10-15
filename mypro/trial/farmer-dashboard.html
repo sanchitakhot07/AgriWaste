@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - AgriWaste Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #388e3c;
+            --accent-color: #8bc34a;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --header-height: 70px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+        
+        /* Vertical dashboard navigation */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .logo {
+            padding: 1.5rem 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo a span {
+            color: var(--accent-color);
+        }
+        
+        .nav-menu {
+            padding: 0 1rem;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #555;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+        }
+        
+        .logout-link {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            padding: 0 1.5rem;
+        }
+        
+        .logout-link .nav-link {
+            color: #d32f2f;
+        }
+        
+        .logout-link .nav-link:hover {
+            background-color: rgba(211, 47, 47, 0.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s;
+        }
+        
+        /* Header */
+        .header {
+            background-color: white;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #555;
+            cursor: pointer;
+            margin-right: 1.5rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .notification-icon, .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-icon i, .user-profile img {
+            font-size: 1.5rem;
+            color: #555;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .user-avatar span {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        /* Dashboard Content */
+        .content {
+            padding: 2rem;
+            min-height: calc(100vh - var(--header-height));
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Recent Activity */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e3f2fd;
+            color: #1976d2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-time {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .activity-amount {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+            
+            .header {
+                padding: 0 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 1.5rem 1rem;
+            }
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Embedded pages */
+        .embed-page {
+            height: calc(100vh - 140px);
+            width: 100%;
+        }
+        .embed-page iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Vertical navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <a href="#"><i class="fas fa-leaf"></i> AgriWaste<span>Market</span></a>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="home">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="gallery">
+                    <i class="fas fa-images"></i> Gallery
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link active" data-page="marketplace">
+                    <i class="fas fa-store"></i> Marketplace
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="sell-waste">
+                    <i class="fas fa-hand-holding-usd"></i> Sell Waste
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="buy-waste">
+                    <i class="fas fa-shopping-cart"></i> Buy Waste
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="contact">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-page="about">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+            </div>
+            <div class="logout-link">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="menu-toggle" id="menuToggle" role="button" tabindex="0" aria-label="Toggle navigation" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <h1 class="page-title" id="pageTitle">Marketplace</h1>
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-icon">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <span aria-hidden="true">F</span>
+                    </div>
+                    <span class="user-name">John Farmer</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="content">
+            
+            <!-- Home Page -->
+            <div id="home" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/log.html?embed=1" title="Home"></iframe>
+                </div>
+            </div>
+
+            <!-- Gallery Page -->
+            <div id="gallery" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/gallery.html?embed=1" title="Gallery"></iframe>
+                </div>
+            </div>
+            
+            <!-- Marketplace Page -->
+            <div id="marketplace" class="page-content active">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/marketplace.html?embed=1" title="Marketplace"></iframe>
+                </div>
+            </div>
+
+            
+            
+            <!-- Sell Waste Page -->
+            <div id="sell-waste" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/sell.html" title="Sell Waste"></iframe>
+                </div>
+            </div>
+            
+            <!-- Buy Waste Page -->
+            <div id="buy-waste" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/buy.html?embed=1" title="Buy Waste"></iframe>
+                </div>
+            </div>
+            
+            <!-- Contact Page -->
+            <div id="contact" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/contact.html?embed=1" title="Contact"></iframe>
+                </div>
+            </div>
+            
+            <!-- About Page -->
+            <div id="about" class="page-content">
+                <div class="embed-page">
+                    <iframe data-src="agriwaste_full_project/about.html?embed=1" title="About"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleSidebar() {
+            const isOpen = sidebar.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        }
+
+        menuToggle.addEventListener('click', toggleSidebar);
+        menuToggle.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleSidebar();
+            }
+        });
+
+        // Navigation between pages with iframe lazy-load/unload
+        const navLinks = document.querySelectorAll('.nav-link[data-page]');
+        const pageContents = document.querySelectorAll('.page-content');
+        const pageTitle = document.getElementById('pageTitle');
+
+        function loadIframeFor(container) {
+            const iframe = container.querySelector('iframe');
+            if (iframe) {
+                if (container.id === 'sell-waste' && !iframe.dataset.companyRefreshListener) {
+                    iframe.addEventListener('load', () => {
+                        iframe.contentWindow.postMessage(
+                            { type: 'refreshCompanies' },
+                            window.location.origin
+                        );
+                    });
+                    iframe.dataset.companyRefreshListener = 'true';
+                }
+
+                if (!iframe.hasAttribute('src') && iframe.dataset.src) {
+                    iframe.src = iframe.dataset.src;
+                } else if (container.id === 'sell-waste') {
+                    iframe.contentWindow.postMessage(
+                        { type: 'refreshCompanies' },
+                        window.location.origin
+                    );
+                }
+            }
+        }
+
+        function unloadIframeFor(container) {
+            // No-op: keep iframes loaded to preserve state between navigations
+        }
+
+        // Initialize: ensure active iframe is loaded; keep others idle (no unload)
+        document.addEventListener('DOMContentLoaded', () => {
+            pageContents.forEach(c => {
+                const iframe = c.querySelector('iframe');
+                if (iframe) {
+                    if (c.classList.contains('active')) {
+                        // ensure active one is loaded
+                        if (!iframe.src && iframe.dataset.src) iframe.src = iframe.dataset.src;
+                    }
+                }
+            });
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+
+                // Update active nav link
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                link.classList.add('active');
+
+                // Update page title
+                pageTitle.textContent = link.textContent.trim();
+
+                // Show only target page content and manage iframes
+                pageContents.forEach(content => {
+                    if (content.id === targetPage) {
+                        content.classList.add('active');
+                        loadIframeFor(content);
+                    } else {
+                        content.classList.remove('active');
+                        // keep iframe loaded to preserve state
+                    }
+                });
+
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (
+                window.innerWidth <= 992 &&
+                !sidebar.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+                sidebar.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Personalize with logged-in farmer name
+        (function personalizeFarmer() {
+            try {
+                const name = localStorage.getItem('farmerName') || 'Farmer User';
+                const nameEl = document.querySelector('.user-name');
+                const avatarEl = document.querySelector('.user-avatar span');
+                if (nameEl) nameEl.textContent = name;
+                if (avatarEl) {
+                    avatarEl.textContent = name.trim().charAt(0).toUpperCase() || 'F';
+                }
+            } catch (err) { /* ignore */ }
+            // Clear stored name on logout
+            const logoutLink = document.querySelector('.logout-link a');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', () => {
+                    try { localStorage.removeItem('farmerName'); } catch (e) {}
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

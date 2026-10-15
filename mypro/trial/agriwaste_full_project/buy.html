@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Buy Waste - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f7f2;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      color: white;
+      text-align: center;
+      padding: 50px 20px 30px 20px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    header .site-tag {
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      background: #43a047;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover, nav a.active {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=60') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2e7d32;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      color: #388e3c;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    a {
+      color: #4caf50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      background: #43a047;
+      color: white;
+      padding: 12px;
+      margin-top: 40px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('https://cdn-icons-png.flaticon.com/512/427/427735.png') no-repeat center/contain;
+      opacity: 0.6;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(300px) rotate(180deg); opacity: 0.8; }
+      100% { transform: translateY(650px) rotate(360deg); opacity: 0.6; }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+
+    /* Embed mode: hide chrome when embedded in dashboard */
+    body.embed-mode header,
+    body.embed-mode nav,
+    body.embed-mode footer { display: none; }
+    body.embed-mode .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 24px;
+      border-radius: 0;
+      box-shadow: none;
+      background: #fff;
+    }
+  </style>
+</head>
+<body data-i18n-title="buy_page_title">
+  <header>
+    <h1 data-i18n="buy_header_title">Buy Agricultural Waste</h1>
+    <div class="site-tag" data-i18n="buy_header_tag">Guidance for new customers</div>
+  </header>
+
+
+  <main class="container">
+    <h2 data-i18n="buy_how_title">How to Buy</h2>
+    <p data-i18n-html="buy_how_p1">
+      Browse the <a href="marketplace.html">Marketplace</a> for available listings. Contact the seller using the contact details they provide
+      (or use the Contact page to ask the platform admin for assistance).
+    </p>
+
+    <h2 data-i18n="buy_benefits_title">Benefits of Buying Waste</h2>
+
+    <div class="section">
+      <p class="section-title" data-i18n="buy_env_title">Environmental Benefits:</p>
+      <ul>
+        <li data-i18n="buy_env_1">Reduces air pollution caused by burning crop residues.</li>
+        <li data-i18n="buy_env_2">Encourages sustainable waste management.</li>
+        <li data-i18n="buy_env_3">Conserves natural resources by reusing waste as compost or biofuel.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-title" data-i18n="buy_econ_title">Economic Benefits:</p>
+      <ul>
+        <li data-i18n="buy_econ_1">Provides additional income for farmers.</li>
+        <li data-i18n="buy_econ_2">Supplies cheap raw materials for buyers.</li>
+        <li data-i18n="buy_econ_3">Boosts local economy through small-scale businesses.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-title" data-i18n="buy_soc_title">Social Benefits:</p>
+      <ul>
+        <li data-i18n="buy_soc_1">Reduces smoke and pollutants, improving community health.</li>
+        <li data-i18n="buy_soc_2">Creates jobs in waste processing and transportation.</li>
+        <li data-i18n="buy_soc_3">Promotes awareness of sustainable farming and environment.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="section-title" data-i18n="buy_agri_title">Agricultural & Industrial Benefits:</p>
+      <ul>
+        <li data-i18n="buy_agri_1">Organic waste can be converted into nutrient-rich compost.</li>
+        <li data-i18n="buy_agri_2">Crop residues can be used for biofuel production.</li>
+        <li data-i18n="buy_agri_3">Supports circular economy by turning waste into valuable resources.</li>
+      </ul>
+    </div>
+
+
+
+  </main>
+
+  <footer><span data-i18n="footer_copyright">© 2025 AgriWaste Marketplace</span></footer>
+  <script src="../i18n.js"></script>
+  <script>
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.body.classList.add('embed-mode');
+        }
+      }catch(e){}
+    })();
+  </script>
+</body>
+</html>

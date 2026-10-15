@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Gallery - AgriWaste</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; background:#f9fff9; }
+    header { background:#2e7d32; color:white; text-align:center; padding:15px 0; }
+    .site-title { margin:0; font-size:34px; }
+    .site-tag { font-size:16px; }
+
+    nav { position:sticky; top:0; background:#388e3c; padding:12px; text-align:center; }
+    nav a { color:white; margin:0 12px; text-decoration:none; font-weight:500; transition:0.3s; }
+    nav a:hover { color:#ffeb3b; }
+
+    .hero { position:relative; height:50vh; overflow:hidden; }
+    .hero img { width:100%; height:100%; object-fit:cover; filter:brightness(60%); }
+    .hero-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; text-align:center; }
+    .hero-text h1 { font-size:42px; margin:0; animation: fadeIn 2s; }
+    .hero-text p { font-size:18px; margin-top:8px; }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+    .container { max-width:1000px; margin:auto; padding:40px 20px; text-align:center; }
+
+    .reveal { opacity:0; transition:all 0.8s ease; }
+    .fade-up { transform:translateY(40px); }
+    .reveal.active { opacity:1; transform:translateY(0); }
+
+    .filter-buttons { margin-bottom:20px; }
+    .filter-buttons button {
+      background:#388e3c; color:white; border:none; padding:10px 18px; margin:5px;
+      border-radius:20px; cursor:pointer; font-weight:500; transition:0.3s;
+    }
+    .filter-buttons button.active, .filter-buttons button:hover { background:#ffeb3b; color:black; }
+
+    .gallery { margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; }
+    .gallery img { width:100%; height:220px; object-fit:cover; border-radius:10px;
+                   box-shadow:0 3px 8px rgba(0,0,0,0.2); transition:0.4s; cursor:pointer; }
+    .gallery img:hover { transform:scale(1.08); box-shadow:0 6px 14px rgba(0,0,0,0.4); }
+    .gallery img.hide { display:none; }
+
+    .lightbox { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9); }
+    .lightbox-content { position:relative; margin:auto; top:50%; transform:translateY(-50%); max-width:90%; max-height:80%; text-align:center; }
+    .lightbox-content img { width:100%; max-height:70vh; border-radius:10px; }
+    .caption { margin-top:10px; color:#ffeb3b; font-size:18px; font-weight:500; }
+
+    .close, .prev, .next {
+      position:absolute; top:50%; transform:translateY(-50%);
+      color:white; font-size:30px; font-weight:bold; padding:10px; cursor:pointer; transition:0.3s;
+    }
+    .close { top:20px; right:30px; transform:none; font-size:35px; }
+    .prev { left:10px; }
+    .next { right:10px; }
+    .close:hover, .prev:hover, .next:hover { color:#ffeb3b; }
+
+    footer { background:#2e7d32; color:white; text-align:center; padding:15px; margin-top:30px; }
+
+    /* Embed mode for dashboard iframes */
+    body.embed-mode header,
+    body.embed-mode nav,
+    body.embed-mode footer,
+    body.embed-mode .hero { display:none; }
+    body.embed-mode .container { max-width: 100%; margin: 0; padding: 24px; }
+
+    .social a { color:white; margin:0 10px; font-size:20px; }
+  </style>
+</head>
+<body data-i18n-title="gallery_page_title">
+  <header>
+    <h1 class="site-title" data-i18n="gallery_header_title">Gallery</h1>
+    <div class="site-tag" data-i18n="gallery_header_tag">Photos of agriwaste & recycling</div>
+  </header>
+
+  <div class="hero">
+    <img src="images/ChatGPT Image Sep 14, 2025, 08_04_11 PM.png" alt="Hero Image">
+    <div class="hero-text">
+      <h1 data-i18n="gallery_hero_h1">Our Gallery</h1>
+      <p data-i18n="gallery_hero_p">Explore AgriWaste & Recycling in Action</p>
+    </div>
+  </div>
+
+  <main class="container">
+    <h2 class="reveal fade-up" data-i18n="gallery_snapshots_title">Snapshots of Sustainability</h2>
+
+    <div class="filter-buttons">
+      <button class="active" onclick="filterGallery('all', event)" data-i18n="gallery_filter_all">All</button>
+      <button onclick="filterGallery('plants', event)" data-i18n="gallery_filter_plants">Plants</button>
+      <button onclick="filterGallery('farmers', event)" data-i18n="gallery_filter_farmers">Farmers</button>
+      <button onclick="filterGallery('energy', event)" data-i18n="gallery_filter_energy">Energy</button>
+    </div>
+
+    <div class="gallery">
+      <!-- Plants -->
+      <img class="reveal fade-up plants" src="images/rice_straw.jpeg" alt="Rice Straw">
+      <img class="reveal fade-up plants" src="images/sugarcane_bagasse.jpeg" alt="Sugarcane Bagasse">
+      <img class="reveal fade-up plants" src="images/coconut.jpg" alt="Coconut Husk">
+      <img class="plants" src="images/wheat.jpeg" alt="Wheat Straw" onerror="this.src='https://source.unsplash.com/400x300/?wheat,straw'">
+      <img class="plants" src="images/banana.jpeg" alt="Banana Fiber Waste" onerror="this.src='https://source.unsplash.com/400x300/?banana,fiber'">
+      <img class="plants" src="images/corn.jpeg" alt="Corn Cobs" onerror="this.src='https://source.unsplash.com/400x300/?corn,cobs'">
+      <img class="plants" src="images/peanut.jpg" alt="Peanut Shells" onerror="this.src='https://source.unsplash.com/400x300/?peanut,shells'">
+      <img class="plants" src="images/fruit.jpeg" alt="Fruit Waste" onerror="this.src='https://source.unsplash.com/400x300/?fruit,waste'">
+      <img class="plants" src="images/tea.jpeg" alt="Tea Waste" onerror="this.src='https://source.unsplash.com/400x300/?tea,waste'">
+
+      <!-- Farmers -->
+      <img class="farmers" src="images/farmers.jpeg" alt="Farmers in Field">
+      <img class="farmers" src="images/farmer1.jpeg" alt="Farmer in Field" onerror="this.src='https://source.unsplash.com/400x300/?farmer,field'">
+      <img class="farmers" src="images/farmc.jpeg" alt="Farmer with Crops" onerror="this.src='https://source.unsplash.com/400x300/?farmer,crops'">
+      <img class="farmers" src="images/farmt.jpeg" alt="Farmer Tools" onerror="this.src='https://source.unsplash.com/400x300/?farm,tools'">
+      <img class="farmers" src="images/women.jpeg" alt="Woman Farmer" onerror="this.src='https://source.unsplash.com/400x300/?woman,farmer'">
+
+      <!-- Energy -->
+      <img class="energy" src="images/biogas.jpeg" alt="Biogas Plant">
+      <img class="energy" src="images/compost.jpeg" alt="Composting Process">
+      <img class="energy" src="images/solar.jpeg" alt="Solar Energy" onerror="this.src='https://source.unsplash.com/400x300/?solar,energy'">
+      <img class="energy" src="images/wind.jpeg" alt="Wind Energy" onerror="this.src='https://source.unsplash.com/400x300/?wind,turbine'">
+      <img class="energy" src="images/biomass.jpeg" alt="Biomass Energy" onerror="this.src='https://source.unsplash.com/400x300/?biomass,energy'">
+      <img class="energy" src="images/hydro.jpeg" alt="Hydro Energy" onerror="this.src='https://source.unsplash.com/400x300/?hydro,energy'">
+    </div>
+  </main>
+
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="">
+      <div id="caption" class="caption"></div>
+    </div>
+    <span class="next">&#10095;</span>
+  </div>
+
+  <footer>
+    <span data-i18n="footer_copyright">© 2025 AgriWaste Marketplace</span> <br>
+    <div class="social">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener("scroll", function() {
+      let reveals = document.querySelectorAll(".reveal");
+      for (let r of reveals) {
+        let windowHeight = window.innerHeight;
+        let revealTop = r.getBoundingClientRect().top;
+        let revealPoint = 100;
+        if (revealTop < windowHeight - revealPoint) {
+          r.classList.add("active");
+        }
+      }
+    });
+
+    // Filter Gallery
+    function filterGallery(category, event) {
+      const images = document.querySelectorAll(".gallery img");
+      const buttons = document.querySelectorAll(".filter-buttons button");
+      buttons.forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+
+      images.forEach(img => {
+        if (category === "all" || img.classList.contains(category)) {
+          img.classList.remove("hide");
+        } else {
+          img.classList.add("hide");
+        }
+      });
+    }
+
+    // Lightbox logic
+    const galleryImages = document.querySelectorAll(".gallery img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const caption = document.getElementById("caption");
+    const closeBtn = document.querySelector(".close");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+    let currentIndex = 0;
+
+    function showImage(index) {
+      lightbox.style.display = "block";
+      lightboxImg.src = galleryImages[index].src;
+      caption.textContent = galleryImages[index].alt;
+      currentIndex = index;
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.addEventListener("click", () => showImage(index));
+    });
+
+    closeBtn.onclick = () => { lightbox.style.display = "none"; }
+    prevBtn.onclick = () => { showImage((currentIndex - 1 + galleryImages.length) % galleryImages.length); }
+    nextBtn.onclick = () => { showImage((currentIndex + 1) % galleryImages.length); }
+
+    // Close on outside click
+    window.onclick = (e) => { if (e.target === lightbox) lightbox.style.display = "none"; }
+
+    // Keyboard controls
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.style.display === "block") {
+        if (e.key === "ArrowLeft") prevBtn.click();
+        if (e.key === "ArrowRight") nextBtn.click();
+        if (e.key === "Escape") closeBtn.click();
+      }
+    });
+  </script>
+  <script>
+    (function(){
+      try{
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.body.classList.add('embed-mode');
+        }
+      }catch(e){}
+    })();
+  </script>
+  <script src="../i18n.js"></script>
+</body>
+</html>
